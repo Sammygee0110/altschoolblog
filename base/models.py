@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class User(models.Model):
-    id = models.UUIDField(primary_key=True, auto_created=True)
     email = models.EmailField()
     name = models.CharField(max_length=200)
 
@@ -23,5 +22,8 @@ class Blog(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ["-updated", "-created"]
+
     def __str__(self) -> str:
-        return self.title
+        return self.title.topic
