@@ -26,3 +26,10 @@ def updateBlog(request, pk):
             return redirect("home")
 
     return render(request, 'create_blog.html', {"form":form})
+
+def deleteBlog(request, pk):
+    blog = Blog.objects.get(id=pk)
+    if request.method == "POST":
+        blog.delete()
+        return redirect("home")
+    return render(request, "delete_blog.html")
