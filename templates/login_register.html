@@ -11,7 +11,7 @@
                 <label for="password">Password: </label>
                 <input type="password" name="password">
 
-                <input type="button" value="Login">
+                <input type="submit" value="Login">
             </form>
             <p>Haven't registered yet?</p>
             <a href="{% url 'register' %}">Sign UP</a>
@@ -22,7 +22,7 @@
                 {% csrf_token %}
                 {{ form.as_p }}
                 
-                <input type="button" value="Login">
+                <input type="submit" value="Login">
             </form>
             <p>Already registered?</p>
             <a href="{% url 'login' %}">Log In</a>

@@ -12,7 +12,8 @@ from django.contrib import messages
 blogs = Blog.objects.all()
 
 def home(request):
-    context = {"blogs":blogs}
+    blogcount = Blog.objects.count()
+    context = {"blogs":blogs, "blogcount":blogcount}
     return render(request, "home.html", context)
 
 def blog(request, pk):

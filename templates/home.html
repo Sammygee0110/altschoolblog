@@ -2,8 +2,13 @@
 
 {% block content %}
     <div>
-        <h2>Hello, {{request.user}}</h2>
-        <a href="{% url 'create-blog' %}"><h3>Create Blog</h3></a><br><br>
+        <h2>Hello, {{request.user}}</h2><br>
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'create-blog' %}"><h3>Create Blog</h3></a><br><br>
+            <br>
+        {% endif %}
+
+        <h4>{{blogcount}} blogs fetched</h4>
 
         {% for blog in blogs %}
             <div>
