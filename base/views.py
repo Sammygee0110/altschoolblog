@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect
 from .models import Blog
 from .forms import BlogForm
+from django.contrib.auth.models import User
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 # Create your views here.
 
@@ -16,6 +20,7 @@ def blog(request, pk):
     context = {'blog':blog}
     return render(request, "blog.html", context)
 
+@login_required(login_url="home")
 def createBlog(request):
     form = BlogForm()
     if request.method == "POST":
@@ -27,6 +32,7 @@ def createBlog(request):
             return redirect("home")
     return render(request, "create_blog.html", {"form":form})
 
+@login_required(login_url="home")
 def updateBlog(request, pk):
     blog = Blog.objects.get(id=pk)
     form = BlogForm(instance=blog)
@@ -38,9 +44,36 @@ def updateBlog(request, pk):
 
     return render(request, 'create_blog.html', {"form":form})
 
+@login_required(login_url="home")
 def deleteBlog(request, pk):
     blog = Blog.objects.get(id=pk)
     if request.method == "POST":
         blog.delete()
         return redirect("home")
     return render(request, "delete_blog.html")
+
+def loginPage(request):
+    # if request.user.is_authenticated:
+    #     return redirect("home")
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.gPOST.get("password")
+
+        try:
+            user = User.objects.get(username=username)
+        except:
+            messages.error(request, "User not found")
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect("home")
+        else:
+            messages.error(request, "Incorrect Username or Password")
+
+    return render(request, "login_register.html")
+
+def logoutUser(request):
+    logout(request)
+    return redirect("home")
