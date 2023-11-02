@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Blog
 from .forms import BlogForm
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from .forms import CustomUserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -80,9 +80,9 @@ def loginPage(request):
     return render(request, "login_register.html", {"page":page})
 
 def registerPage(request):
-    form = UserCreationForm()
+    form = CustomUserCreationForm()
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.username = user.username.lower()
