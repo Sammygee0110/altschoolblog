@@ -6,12 +6,17 @@ from .forms import CustomUserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.db.models import Q
 
 # Create your views here.
 
 blogs = Blog.objects.all()
 
 def home(request):
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+    blogs = Blog.objects.filter(
+        Q(title__icontains=q)
+    )
     blogcount = Blog.objects.count()
     context = {"blogs":blogs, "blogcount":blogcount}
     return render(request, "home.html", context)
@@ -61,7 +66,7 @@ def loginPage(request):
         return redirect("home")
     
     if request.method == "POST":
-        username = request.POST.get("username")
+        username = request.POST.get("username").lower()
         password = request.POST.get("password")
 
         try:
