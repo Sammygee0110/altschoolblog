@@ -2,6 +2,7 @@
 
 {% block content %}
     <div>
+        <h2>Hello, {{request.user}}</h2>
         <a href="{% url 'create-blog' %}"><h3>Create Blog</h3></a><br><br>
 
         {% for blog in blogs %}

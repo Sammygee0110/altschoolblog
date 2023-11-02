@@ -9,4 +9,5 @@ urlpatterns = [
     path("delete-blog/<str:pk>", views.deleteBlog, name="delete-blog"), 
     path("logout/", views.logoutUser, name="logout"),
     path("login/", views.loginPage, name="login"),
+    path("register/", views.registerPage, name="register"),
 ]

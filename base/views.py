@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Blog
 from .forms import BlogForm
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -53,11 +54,14 @@ def deleteBlog(request, pk):
     return render(request, "delete_blog.html")
 
 def loginPage(request):
-    # if request.user.is_authenticated:
-    #     return redirect("home")
+    page = "login"
+
+    if request.user.is_authenticated:
+        return redirect("home")
+    
     if request.method == "POST":
         username = request.POST.get("username")
-        password = request.gPOST.get("password")
+        password = request.POST.get("password")
 
         try:
             user = User.objects.get(username=username)
@@ -72,7 +76,20 @@ def loginPage(request):
         else:
             messages.error(request, "Incorrect Username or Password")
 
-    return render(request, "login_register.html")
+    return render(request, "login_register.html", {"page":page})
+
+def registerPage(request):
+    form = UserCreationForm()
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            return redirect("login")
+        else:
+            messages.error(request, "An error occured")
+    return render(request, "login_register.html", {"form":form})
 
 def logoutUser(request):
     logout(request)
