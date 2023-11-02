@@ -21,7 +21,9 @@ def createBlog(request):
     if request.method == "POST":
         form = BlogForm(request.POST)
         if form.is_valid():
-            form.save()
+            obj = form.save(commit=False)
+            obj.author = request.user
+            obj.save()
             return redirect("home")
     return render(request, "create_blog.html", {"form":form})
 
