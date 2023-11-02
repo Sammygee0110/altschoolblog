@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib import auth
 
 # Create your models here.
 
@@ -18,7 +18,7 @@ class Topic(models.Model):
         return self.topic
 class Blog(models.Model):
     title = models.ForeignKey(Topic, on_delete=models.CASCADE)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(auth.models.User, on_delete=models.CASCADE)
     body = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

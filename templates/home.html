@@ -2,12 +2,12 @@
 
 {% block content %}
     <div>
-        <a href=""><h3>Create Blog</h3></a><br><br>
+        <a href="{% url 'create-blog' %}"><h3>Create Blog</h3></a><br><br>
 
         {% for blog in blogs %}
             <div>
                 <h5>@{{blog.author}}</h5>
-                <a href="{% url 'create-blog' blog.id %}"><h5>Edit</h5></a>
+                <a href="{% url 'update-blog' blog.id %}"><h5>Edit</h5></a>
                 <a href="{% url 'delete-blog' blog.id %}"><h5>Delete</h5></a>
                 <a href="{% url 'blog' blog.id %}"><h4>{{blog.title}}</h4></a>
                 <h5>{{blog.created}}</h5>
