@@ -18,7 +18,7 @@
                     <a href="{% url 'delete-blog' blog.id %}"><h5>Delete</h5></a>
                 {% endif %}
                 <a href="{% url 'blog' blog.id %}?q={{blog.title}}"><h4>{{blog.title}}</h4></a>
-                <h5>{{blog.created}}</h5>
+                <h5>{{blog.created|timesince}} ago</h5>
                 <hr>
                 <br>
             </div>
