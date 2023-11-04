@@ -97,6 +97,12 @@ def registerPage(request):
             messages.error(request, "An error occured")
     return render(request, "login_register.html", {"form":form})
 
+def userProfile(request, pk):
+    user = User.objects.get(id=pk)
+    blogs = user.blog_set.all()
+    context={"user":user, "blogs":blogs}
+    return render(request, "profile.html", context)
+
 def logoutUser(request):
     logout(request)
     return redirect("home")

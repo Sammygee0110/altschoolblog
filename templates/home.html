@@ -10,18 +10,6 @@
 
         <h4>{{blogcount}} blogs fetched</h4>
 
-        {% for blog in blogs %}
-            <div>
-                <h5>@{{blog.author}}</h5>
-                {% if request.user == blog.author %}
-                    <a href="{% url 'update-blog' blog.id %}"><h5>Edit</h5></a>
-                    <a href="{% url 'delete-blog' blog.id %}"><h5>Delete</h5></a>
-                {% endif %}
-                <a href="{% url 'blog' blog.id %}?q={{blog.title}}"><h4>{{blog.title}}</h4></a>
-                <h5>{{blog.created|timesince}} ago</h5>
-                <hr>
-                <br>
-            </div>
-        {% endfor %}
+        {% include 'blogs_component.html' %}
     </div>
 {% endblock %}
